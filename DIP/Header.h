@@ -14,12 +14,17 @@ constexpr int numOfSquares = 4;
 constexpr int numOfStars = 4;
 constexpr int numOfRectangles = 4;
 
+constexpr int k = 3;
+
 // Enums & Structs
 enum EClassType {
 	Square, Rectangle, Star
 };
-struct FeatureVector
-{
+enum EClassificationType {
+	Ethalons, KMeans
+};
+
+struct FeatureVector {
 	double f1, f2;
 };
 
