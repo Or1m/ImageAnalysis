@@ -7,15 +7,15 @@
 #include <map>
 
 // Consts
+constexpr int k                 = 3;
 constexpr int starIdx           = 4;
 constexpr int rectangleIdx      = 8;
-
-constexpr int numOfSquares      = 4;
 constexpr int numOfStars        = 4;
-constexpr int numOfRectangles   = 4;
+constexpr int numOfSquares      = 4;
 constexpr int expectedCount     = 4;
+constexpr int numOfRectangles   = 4;
 
-constexpr int k                 = 3;
+constexpr float textHeight      = 0.7f;
 
 // Enums & Structs
 enum class EClassType {
@@ -26,13 +26,14 @@ enum class EClassificationType {
 };
 
 struct FeatureVector {
-    double f1, f2;
+    double f1, f2, xt, yt;
 
-    FeatureVector() : FeatureVector(0, 0) { }
-
-    FeatureVector(double f1, double f2) {
+    FeatureVector(double f1 = 0, double f2 = 0, double xt = 0, double yt = 0) {
         this->f1 = f1;
         this->f2 = f2;
+
+        this->xt = xt;
+        this->yt = yt;
     }
 
     bool const operator==(const FeatureVector& f) const {
@@ -63,19 +64,22 @@ void floodFillPrimitive(cv::Mat& img, uchar newColor, int y, int x);
 // Features
 void CalcFeatures(int objectCount, cv::Mat& sourceImg, cv::Mat& grayScaleImg, std::vector<FeatureVector>& features);
 
-void AddLabelToImage(cv::Mat& grayScaleImg, int xt, int yt, int i);
+void AddLabelToImage(cv::Mat& grayScaleImg, int xt, int yt, int i, int colorClass);
 
 inline bool IsPartOfCircumference(cv::Mat& grayScaleImg, int y, int x, int i);
 
 inline double Mu(int p, int q, int x, double xt, int y, double yt);
+
 inline double MuMax(double mu20, double mu02, double mu11);
+
 inline double MuMin(double mu20, double mu02, double mu11);
+
 inline double M(int p, int q, int x, int y);
 
 // Labeling & ethalons
 void CalcEthalons(std::vector<FeatureVector>& features, std::map<EClassType, FeatureVector>& ethalons);
 
-void CompareFeaturesWithEthalons(const std::map<EClassType, FeatureVector>& ethalons, const std::vector<FeatureVector>& testFeatures);
+void CompareFeaturesWithEthalons(const std::map<EClassType, FeatureVector>& ethalons, const std::vector<FeatureVector>& testFeatures, cv::Mat& sourceImg);
 
 // KMeans
 void DoClusteringUntilCorrectResult(std::map<FeatureVector, std::vector<FeatureVector>>& clusters, std::vector<FeatureVector>& features);
@@ -88,7 +92,7 @@ void AssignFeaturesToNearestCentroids(const std::vector<FeatureVector>& trainFea
 
 void RecalculateCentroids(std::vector<FeatureVector>& tempCentroids, std::vector<FeatureVector>& centroids, std::map<FeatureVector, std::vector<FeatureVector>>& clusters);
 
-void CompareFeaturesWithCentroids(std::map<FeatureVector, std::vector<FeatureVector>>& clusters, std::vector<FeatureVector>& testFeatures);
+void CompareFeaturesWithCentroids(std::map<FeatureVector, std::vector<FeatureVector>>& clusters, std::vector<FeatureVector>& testFeatures, cv::Mat& sourceImg);
 
 // Utils
 double Euklid(const FeatureVector& feature, const FeatureVector& ethalon);
