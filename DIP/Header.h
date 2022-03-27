@@ -5,6 +5,7 @@
 #include <math.h>
 #include <limits>
 #include <map>
+#include "backprop.h"
 
 // Consts
 constexpr int k                 = 3;
@@ -22,7 +23,7 @@ enum class EClassType {
 	Unknown, Square, Rectangle, Star
 };
 enum class EClassificationType {
-	Ethalons, KMeans
+	Ethalons, KMeans, BNN
 };
 
 struct FeatureVector {
@@ -93,6 +94,11 @@ void AssignFeaturesToNearestCentroids(const std::vector<FeatureVector>& trainFea
 void RecalculateCentroids(std::vector<FeatureVector>& tempCentroids, std::vector<FeatureVector>& centroids, std::map<FeatureVector, std::vector<FeatureVector>>& clusters);
 
 void CompareFeaturesWithCentroids(std::map<FeatureVector, std::vector<FeatureVector>>& clusters, std::vector<FeatureVector>& testFeatures, cv::Mat& sourceImg);
+
+//BNN
+void train(NN* nn);
+
+void test(NN* nn, int num_samples = 10);
 
 // Utils
 double Euklid(const FeatureVector& feature, const FeatureVector& ethalon);
