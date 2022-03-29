@@ -98,7 +98,7 @@ void CompareFeaturesWithCentroids(std::map<FeatureVector, std::vector<FeatureVec
 //BNN
 void train(NN* nn, std::vector<FeatureVector>& features);
 
-void test(NN* nn, std::vector<FeatureVector>& features);
+void test(NN* nn, std::vector<FeatureVector>& features, cv::Mat& sourceImg);
 
 // Utils
 double Euklid(const FeatureVector& feature, const FeatureVector& ethalon);
