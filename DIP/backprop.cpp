@@ -89,8 +89,8 @@ void releaseNN(NN*& nn) {
 	nn = NULL;
 }
 
-const double sigmoid(const double sij, const double lambda) {
-	return 1.0 / (1.0 + exp(-1 * LAMBDA * sij));
+const double sigmoid(const double sij, const double lambda = LAMBDA) {
+	return 1.0 / (1.0 + exp(-1 * lambda * sij));
 }
 
 const double derivate_sigmoid(const double y) {
@@ -98,6 +98,21 @@ const double derivate_sigmoid(const double y) {
 }
 
 void feedforward(NN* nn) {
+	/*double sij = 0;
+
+	for (int i = 1; i < nn->l; i++) {
+
+		for (int j = 0; j < nn->n[i]; j++) {
+			sij = 0;
+
+			for (int k = 0; k < nn->n[i]; k++) {
+				sij += *nn->w[i][j] * nn->y[i][j];
+			}
+
+			double y = sigmoid(sij);
+			nn->y[i][j] = y;
+		}
+	}*/
 	double ski = 0;
 	for (int level = 1; level < nn->l; level++) {
 		for (int node = 0; node < nn->n[level]; node++) {
@@ -161,18 +176,23 @@ void setInput(NN* nn, double* in, bool verbose) {
 	}
 }
 
-int getOutput(NN* nn, bool verbose) {
+int getOutput(NN* nn, bool verbose, int i) {
 	double max = 0.0;
 	int max_i = 0;
-	if (verbose) printf(" output=");
+
+	if (verbose) printf("%d. ", i);
+	if (verbose) printf("output=(");
+
 	for (int i = 0; i < nn->n[nn->l - 1]; i++) {
 		if (verbose) printf("%0.3f ", nn->out[i]);
+
 		if (nn->out[i] > max) {
 			max = nn->out[i];
 			max_i = i;
 		}
 	}
-	if (verbose) printf(" -> %d\n", max_i);
+
+	if (verbose) printf(")");
 	//if (nn->out[0] > nn->out[1] && nn->out[0] - nn->out[1] < 0.1) return 2;
 	return max_i;
 }

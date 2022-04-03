@@ -17,4 +17,4 @@ void releaseNN(NN*& nn);
 void feedforward(NN* nn);
 double backpropagation(NN* nn, double* t);
 void setInput(NN* nn, double* in, bool verbose = false);
-int getOutput(NN* nn, bool verbose = false);
+int getOutput(NN* nn, bool verbose = false, int i = 0);
