@@ -98,21 +98,6 @@ const double derivate_sigmoid(const double y) {
 }
 
 void feedforward(NN* nn) {
-	/*double sij = 0;
-
-	for (int i = 1; i < nn->l; i++) {
-
-		for (int j = 0; j < nn->n[i]; j++) {
-			sij = 0;
-
-			for (int k = 0; k < nn->n[i]; k++) {
-				sij += *nn->w[i][j] * nn->y[i][j];
-			}
-
-			double y = sigmoid(sij);
-			nn->y[i][j] = y;
-		}
-	}*/
 	double ski = 0;
 	for (int level = 1; level < nn->l; level++) {
 		for (int node = 0; node < nn->n[level]; node++) {
